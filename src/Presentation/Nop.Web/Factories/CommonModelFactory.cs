@@ -321,9 +321,9 @@ namespace Nop.Web.Factories
 
                 //notifications here
                 if (_forumSettings.ShowAlertForPM &&
-                    !customer.GetAttribute<bool>(SystemCustomerAttributeNames.NotifiedAboutNewPrivateMessages, _storeContext.CurrentStore.Id))
+                    !customer.GetAttribute<bool>(NopCustomersDefaults.NotifiedAboutNewPrivateMessagesAttribute, _storeContext.CurrentStore.Id))
                 {
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.NotifiedAboutNewPrivateMessages, true, _storeContext.CurrentStore.Id);
+                    _genericAttributeService.SaveAttribute(customer, NopCustomersDefaults.NotifiedAboutNewPrivateMessagesAttribute, true, _storeContext.CurrentStore.Id);
                     alertMessage = string.Format(_localizationService.GetResource("PrivateMessages.YouHaveUnreadPM"), unreadMessageCount);
                 }
             }

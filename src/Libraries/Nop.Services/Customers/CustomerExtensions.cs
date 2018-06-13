@@ -27,8 +27,8 @@ namespace Nop.Services.Customers
         {
             if (customer == null)
                 throw new ArgumentNullException(nameof(customer));
-            var firstName = customer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName);
-            var lastName = customer.GetAttribute<string>(SystemCustomerAttributeNames.LastName);
+            var firstName = customer.GetAttribute<string>(NopCustomersDefaults.FirstNameAttribute);
+            var lastName = customer.GetAttribute<string>(NopCustomersDefaults.LastNameAttribute);
 
             var fullName = "";
             if (!string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName))
@@ -74,7 +74,7 @@ namespace Nop.Services.Customers
                     result = customer.GetFullName();
                     break;
                 case CustomerNameFormat.ShowFirstName:
-                    result = customer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName);
+                    result = customer.GetAttribute<string>(NopCustomersDefaults.FirstNameAttribute);
                     break;
                 default:
                     break;
@@ -99,7 +99,7 @@ namespace Nop.Services.Customers
                 throw new ArgumentNullException(nameof(customer));
 
             var genericAttributeService = EngineContext.Current.Resolve<IGenericAttributeService>();
-            var existingCouponCodes = customer.GetAttribute<string>(SystemCustomerAttributeNames.DiscountCouponCode,
+            var existingCouponCodes = customer.GetAttribute<string>(NopCustomersDefaults.DiscountCouponCodeAttribute,
                 genericAttributeService);
 
             var couponCodes = new List<string>();
@@ -143,7 +143,7 @@ namespace Nop.Services.Customers
             var result = string.Empty;
             try
             {
-                var existingCouponCodes = customer.GetAttribute<string>(SystemCustomerAttributeNames.DiscountCouponCode,
+                var existingCouponCodes = customer.GetAttribute<string>(NopCustomersDefaults.DiscountCouponCodeAttribute,
                     genericAttributeService);
 
                 couponCode = couponCode.Trim().ToLower();
@@ -192,7 +192,7 @@ namespace Nop.Services.Customers
             }
 
             //apply new value
-            genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.DiscountCouponCode, result);
+            genericAttributeService.SaveAttribute(customer, NopCustomersDefaults.DiscountCouponCodeAttribute, result);
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Nop.Services.Customers
 
             //clear them
             var genericAttributeService = EngineContext.Current.Resolve<IGenericAttributeService>();
-            genericAttributeService.SaveAttribute<string>(customer, SystemCustomerAttributeNames.DiscountCouponCode, null);
+            genericAttributeService.SaveAttribute<string>(customer, NopCustomersDefaults.DiscountCouponCodeAttribute, null);
 
             //save again except removed one
             foreach (string existingCouponCode in existingCouponCodes)
@@ -230,7 +230,7 @@ namespace Nop.Services.Customers
                 throw new ArgumentNullException(nameof(customer));
 
             var genericAttributeService = EngineContext.Current.Resolve<IGenericAttributeService>();
-            var existingCouponCodes = customer.GetAttribute<string>(SystemCustomerAttributeNames.GiftCardCouponCodes,
+            var existingCouponCodes = customer.GetAttribute<string>(NopCustomersDefaults.GiftCardCouponCodesAttribute,
                 genericAttributeService);
 
             var couponCodes = new List<string>();
@@ -274,7 +274,7 @@ namespace Nop.Services.Customers
             var result = string.Empty;
             try
             {
-                var existingCouponCodes = customer.GetAttribute<string>(SystemCustomerAttributeNames.GiftCardCouponCodes,
+                var existingCouponCodes = customer.GetAttribute<string>(NopCustomersDefaults.GiftCardCouponCodesAttribute,
                     genericAttributeService);
 
                 couponCode = couponCode.Trim().ToLower();
@@ -323,7 +323,7 @@ namespace Nop.Services.Customers
             }
 
             //apply new value
-            genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.GiftCardCouponCodes, result);
+            genericAttributeService.SaveAttribute(customer, NopCustomersDefaults.GiftCardCouponCodesAttribute, result);
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Nop.Services.Customers
 
             //clear them
             var genericAttributeService = EngineContext.Current.Resolve<IGenericAttributeService>();
-            genericAttributeService.SaveAttribute<string>(customer, SystemCustomerAttributeNames.GiftCardCouponCodes, null);
+            genericAttributeService.SaveAttribute<string>(customer, NopCustomersDefaults.GiftCardCouponCodesAttribute, null);
 
             //save again except removed one
             foreach (string existingCouponCode in existingCouponCodes)
@@ -361,7 +361,7 @@ namespace Nop.Services.Customers
             if (customer == null)
                 throw new ArgumentNullException(nameof(customer));
 
-            var cPrt = customer.GetAttribute<string>(SystemCustomerAttributeNames.PasswordRecoveryToken);
+            var cPrt = customer.GetAttribute<string>(NopCustomersDefaults.PasswordRecoveryTokenAttribute);
             if (string.IsNullOrEmpty(cPrt))
                 return false;
 
@@ -388,7 +388,7 @@ namespace Nop.Services.Customers
             if (customerSettings.PasswordRecoveryLinkDaysValid == 0)
                 return false;
             
-            var geneatedDate = customer.GetAttribute<DateTime?>(SystemCustomerAttributeNames.PasswordRecoveryTokenDateGenerated);
+            var geneatedDate = customer.GetAttribute<DateTime?>(NopCustomersDefaults.PasswordRecoveryTokenDateGeneratedAttribute);
             if (!geneatedDate.HasValue)
                 return false;
 
