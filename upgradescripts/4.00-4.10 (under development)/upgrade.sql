@@ -1185,7 +1185,7 @@ set @resources='
     <Value>Re-index</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.System.Warnings.PluginNotEnabled">
-    <Value>You could remove the plugin(s) which you don''t use, this might increase performance</Value>
+    <Value>You could uninstall and remove the plugin(s) which you don''t use, this might increase performance</Value>
   </LocaleResource>  
 </Language>
 '

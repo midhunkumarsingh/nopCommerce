@@ -487,7 +487,7 @@ namespace Nop.Web.Areas.Admin.Factories
         /// Prepare plugins enabled warning model
         /// </summary>
         /// <param name="models">List of system warning models</param>
-        private void PreparePluginsEnabledWarningModel(List<SystemWarningModel> models)
+        protected virtual void PreparePluginsEnabledWarningModel(List<SystemWarningModel> models)
         {
             var pluginDescriptors = _pluginFinder.GetPluginDescriptors();
 
@@ -524,6 +524,10 @@ namespace Nop.Web.Areas.Admin.Factories
                     case IWidgetPlugin widgetPlugin:
                         isEnabled = widgetPlugin.IsWidgetActive(_widgetSettings);
                         break;
+
+                    case IExchangeRateProvider  exchangeRateProvider :
+                        isEnabled = exchangeRateProvider.PluginDescriptor.SystemName == _currencySettings.ActiveExchangeRateProviderSystemName;
+                        break;
                 }
 
                 if (isEnabled)
@@ -537,7 +541,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 models.Add(new SystemWarningModel
                 {
                     Level = SystemWarningLevel.Warning,
-                    Text = $"{_localizationService.GetResource("Admin.System.Warnings.PluginNotEnabled")}: {string.Join(',', notEnabled)}"
+                    Text = $"{_localizationService.GetResource("Admin.System.Warnings.PluginNotEnabled")}: {string.Join(", ", notEnabled)}"
                 });
             }
         }
