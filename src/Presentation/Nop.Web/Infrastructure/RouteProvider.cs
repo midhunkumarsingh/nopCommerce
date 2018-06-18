@@ -41,11 +41,7 @@ namespace Nop.Web.Infrastructure
 
             //shopping cart
             routeBuilder.MapLocalizedRoute("ShoppingCart", "cart/",
-				new { controller = "ShoppingCart", action = "Cart" });
-
-            //check gift card balance 
-            routeBuilder.MapLocalizedRoute("CheckGiftCardBalance", "customer",
-                new { controller = "Customer", action = "CheckGiftCardBalance" });
+				new { controller = "ShoppingCart", action = "Cart" });            
 
             //estimate shipping
             routeBuilder.MapLocalizedRoute("EstimateShipping", "cart/estimateshipping",
@@ -347,6 +343,10 @@ namespace Nop.Web.Infrastructure
             //customer GDPR
             routeBuilder.MapLocalizedRoute("GdprTools", "customer/gdpr",
                 new { controller = "Customer", action = "GdprTools" });
+
+            //customer check gift card balance 
+            routeBuilder.MapLocalizedRoute("CheckGiftCardBalance", "customer/CheckGiftCardBalance",
+                new { controller = "Customer", action = "CheckGiftCardBalance" });
 
             //poll vote AJAX link
             routeBuilder.MapLocalizedRoute("PollVote", "poll/vote",

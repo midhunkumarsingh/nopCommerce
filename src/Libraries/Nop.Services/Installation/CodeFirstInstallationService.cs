@@ -6191,6 +6191,7 @@ namespace Nop.Services.Installation
                 SuffixDeletedCustomers = false,
                 EnteringEmailTwice = false,
                 RequireRegistrationForDownloadableProducts = false,
+                AllowCustomersToCheckGiftCardBalance = false,
                 DeleteGuestTaskOlderThanMinutes = 1440
             });
 
@@ -6550,7 +6551,6 @@ namespace Nop.Services.Installation
                 DisplayRecentlyViewedProductsFooterItem = true,
                 DisplayCompareProductsFooterItem = true,
                 DisplayNewProductsFooterItem = true,
-                DisplayCheckGiftCardBalanceFooterItem = true,
                 DisplayCustomerInfoFooterItem = true,
                 DisplayCustomerOrdersFooterItem = true,
                 DisplayCustomerAddressesFooterItem = true,

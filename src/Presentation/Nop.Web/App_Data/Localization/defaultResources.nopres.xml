@@ -5820,6 +5820,12 @@
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.AddressFormFields.ZipPostalCodeRequired.Hint">
     <Value>Check if 'Zip / postal code' is required.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.AllowCustomersToCheckGiftCardBalance">
+    <Value>Allow customers to check gift card balance</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.AllowCustomersToCheckGiftCardBalance.Hint">
+    <Value>Check to allow customers to check gift card balance. If checked, then CAPTCHA setting must be enabled in the admin area.</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.AllowCustomersToSetTimeZone">
     <Value>Allow customers to select time zone</Value>
   </LocaleResource>
@@ -6629,13 +6635,7 @@
   </LocaleResource>  
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.DisplayDefaultFooterItemSettingsModel.DisplayBlogFooterItem.Hint">
     <Value>Check if "Blog" menu item should be displayed in the footer. Blog functionality should be also enabled in this case.</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.DisplayDefaultFooterItemSettingsModel.DisplayCheckGiftCardBalanceFooterItem">
-    <Value>Display "Check gift card balance"</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.DisplayDefaultFooterItemSettingsModel.DisplayCheckGiftCardBalanceFooterItem.Hint">
-    <Value>Check if "Check gift card balance" menu item should be displayed in the footer.</Value>
-  </LocaleResource>
+  </LocaleResource>  
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.DisplayDefaultFooterItemSettingsModel.DisplayCompareProductsFooterItem">
     <Value>Display "Compare products list"</Value>
   </LocaleResource>  
@@ -14214,6 +14214,12 @@
   <LocaleResource Name="CheckGiftCard.GiftCardCouponCode.Button">
     <Value>Check gift card</Value>
   </LocaleResource>
+  <LocaleResource Name="CheckGiftCardBalance.GiftCardCouponCode.Empty">
+    <Value>Coupon code is empty.</Value>
+  </LocaleResource>
+  <LocaleResource Name="CheckGiftCardBalance.GiftCardCouponCode.Invalid">
+    <Value>Coupon code is not valid.</Value>
+  </LocaleResource>
   <LocaleResource Name="Checkout">
     <Value>Checkout</Value>
   </LocaleResource>
@@ -17201,10 +17207,7 @@
   </LocaleResource>
   <LocaleResource Name="ShoppingCart.GiftCardCouponCode.WrongGiftCard">
     <Value>The coupon code you entered couldn't be applied to your order</Value>
-  </LocaleResource>
-  <LocaleResource Name="ShoppingCart.GiftCardCouponCode.WrongGiftCardEmpty">
-    <Value>The coupon code can not be empty</Value>
-  </LocaleResource>
+  </LocaleResource>  
   <LocaleResource Name="ShoppingCart.HeaderQuantity">
     <Value>({0})</Value>
   </LocaleResource>

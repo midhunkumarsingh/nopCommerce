@@ -763,6 +763,17 @@ namespace Nop.Web.Factories
                 });
             }
 
+            if (_captchaSettings.Enabled && _customerSettings.AllowCustomersToCheckGiftCardBalance)
+            {
+                model.CustomerNavigationItems.Add(new CustomerNavigationItemModel
+                {
+                    RouteName = "CheckGiftCardBalance",
+                    Title = _localizationService.GetResource("CheckGiftCardBalance"),
+                    Tab = CustomerNavigationEnum.CheckGiftCardBalance,
+                    ItemClass = "customer-check-gift-card-balance"
+                });
+            }
+
             model.SelectedTab = (CustomerNavigationEnum)selectedTabId;
 
             return model;

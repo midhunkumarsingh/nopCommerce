@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
-using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
@@ -57,6 +55,7 @@ namespace Nop.Web.Controllers
         private readonly ILocalizationService _localizationService;
         private readonly IWorkContext _workContext;
         private readonly IStoreContext _storeContext;
+        private readonly ICurrencyService _currencyService;        
         private readonly ICustomerService _customerService;
         private readonly IGiftCardService _giftCardService;
         private readonly IPriceFormatter _priceFormatter;
@@ -102,6 +101,7 @@ namespace Nop.Web.Controllers
             ILocalizationService localizationService,
             IWorkContext workContext,
             IStoreContext storeContext,
+            ICurrencyService currencyService,
             ICustomerService customerService,
             IGiftCardService giftCardService,
             IPriceFormatter priceFormatter,
@@ -142,6 +142,7 @@ namespace Nop.Web.Controllers
             this._localizationService = localizationService;
             this._workContext = workContext;
             this._storeContext = storeContext;
+            this._currencyService = currencyService;
             this._customerService = customerService;
             this._giftCardService = giftCardService;
             this._priceFormatter = priceFormatter;
@@ -1631,57 +1632,44 @@ namespace Nop.Web.Controllers
         //check gift card balance page
         [HttpsRequirement(SslRequirement.Yes)]
         //available even when a store is closed
-        [CheckAccessClosedStore(true)]
+        [CheckAccessClosedStore(true)]        
         public virtual IActionResult CheckGiftCardBalance()
         {
+            if (!(_captchaSettings.Enabled && _customerSettings.AllowCustomersToCheckGiftCardBalance))
+            {
+                return RedirectToRoute("CustomerInfo");
+            }
+
             var model = _customerModelFactory.PrepareCheckGiftCardBalanceModel();
             return View(model);
         }
         
         [HttpPost, ActionName("CheckGiftCardBalance")]
         [FormValueRequired("checkbalancegiftcard")]
-        public virtual IActionResult CheckBalance(CheckGiftCardBalanceModel model)
+        [ValidateCaptcha]
+        public virtual IActionResult CheckBalance(CheckGiftCardBalanceModel model, bool captchaValid)
         {
-            var giftcardcouponcode = model.Form["giftcardcouponcode"].ToString();
-            //trim
-            if (giftcardcouponcode != null)
-                giftcardcouponcode = giftcardcouponcode.Trim();
-
-            //cart
-            var cart = _workContext.CurrentCustomer.ShoppingCartItems
-                .Where(sci => sci.ShoppingCartType == ShoppingCartType.ShoppingCart)
-                .LimitPerStore(_storeContext.CurrentStore.Id)
-                .ToList();
-
-            model = _customerModelFactory.PrepareCheckGiftCardBalanceModel();
-
-            if (!cart.IsRecurring())
+            //validate CAPTCHA
+            if (_captchaSettings.Enabled && !captchaValid)
             {
-                if (!string.IsNullOrWhiteSpace(giftcardcouponcode))
-                {                    
-                    var giftCard = _giftCardService.GetAllGiftCards(giftCardCouponCode: giftcardcouponcode).FirstOrDefault();
-                    var isGiftCardValid = giftCard != null && giftCard.IsGiftCardValid();
-                    if (isGiftCardValid)
-                    {
-                        model.Result = _priceFormatter.FormatPrice(giftCard.GetGiftCardRemainingAmount(), true, false);
-                        model.Message = string.Empty;
-                    }
-                    else
-                    {
-                        model.Message = _localizationService.GetResource("ShoppingCart.GiftCardCouponCode.WrongGiftCard");
-                    }
+                ModelState.AddModelError("", _captchaSettings.GetWrongCaptchaMessage(_localizationService));
+            }
+
+            if (ModelState.IsValid)
+            {
+                var giftCard = _giftCardService.GetAllGiftCards(giftCardCouponCode: model.GiftCardCode).FirstOrDefault();
+                if (giftCard?.IsGiftCardValid() ?? false)
+                {
+                    var remainingAmount = _currencyService.ConvertFromPrimaryStoreCurrency(giftCard.GetGiftCardRemainingAmount(), _workContext.WorkingCurrency);
+                    model.Result = _priceFormatter.FormatPrice(remainingAmount, true, false);
                 }
                 else
                 {
-                    model.Message = _localizationService.GetResource("ShoppingCart.GiftCardCouponCode.WrongGiftCardEmpty");
+                    model.Message = _localizationService.GetResource("CheckGiftCardBalance.GiftCardCouponCode.Invalid");
                 }
             }
-            else
-            {
-                model.Message = _localizationService.GetResource("ShoppingCart.GiftCardCouponCode.DontWorkWithAutoshipProducts");
-            }
 
-            return View(model);
+            return View(model); 
         }
 
         #endregion

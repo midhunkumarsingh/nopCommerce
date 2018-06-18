@@ -60,7 +60,7 @@
                 {
                     <li><a href="@Url.RouteUrl("Topic", new {SeName = topic.SeName})">@topic.Name</a></li>
                 }
-                @if (Model.DisplayCheckGiftCardBalanceFooterItem)
+                @if (Model.AllowCustomersToCheckGiftCardBalance)
                 {
                     <li><a href="@Url.RouteUrl("CheckGiftCardBalance")">@T("CheckGiftCardBalance")</a></li>
                 }
